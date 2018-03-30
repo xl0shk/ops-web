@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>部署日志</title>
+
+    <link rel="icon" type="image/png" href="/static/images/favicon.ico">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'include/header.html' %}
+            {% include 'include/menu.html' %}
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">日志</h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>日志：</label>
+                                        <textarea class="form-control" rows="20" id="logTextArea">{{task.deploy_log}}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/metisMenu.min.js"></script>
+    <script src="/static/js/sb-admin-2.js"></script>
+
+    <script>
+        function pollLog() {
+            $.ajax({
+                url : '/zeus/project/deploy/log_roll',
+                type : 'GET',
+                data : {
+                    taskId : {{task.id}},
+                },
+                dataType:'json',
+                success : function(data) {
+                    var ele = $('#logTextArea');
+
+                    ele.val(data.deploy_log);
+                    if (ele.length) {
+                        ele.scrollTop(ele[0].scrollHeight - ele.height());
+                    }
+
+                    if (data.deploy_done == 0) {
+                        setTimeout(function() {
+                            pollLog()
+                        }, 500)
+                    }
+                },
+                error : function(err) {
+                    alert('Error');
+                }
+            })
+        }
+
+        $(function(){
+            pollLog()
+        });
+    </script>
+
+</body>
+
+</html>

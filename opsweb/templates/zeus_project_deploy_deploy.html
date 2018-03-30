@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>部署</title>
+    <link rel="icon" type="image/png" href="/static/images/favicon.ico">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/custom.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'include/header.html' %}
+            {% include 'include/menu.html' %}
+        </nav>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">部署项目:{{ build.project.name }} &nbsp;&nbsp; Build_ID:{{ build.id }} </h2>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="col-lg-12">
+                            <h4 class="page-header">测试环境</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form role="form">
+                                        <input type="hidden" name="id" value="" />
+                                            <div class="form-group">
+                                                <label>部署目标主机和路径列表</label>
+                                                {% for value in test_deployinfo %}
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="test_deploy" type="checkbox" id="{{loop.index}}" value="{{value.id}}">{{ value.server_ip }} &nbsp;&nbsp; {{ value.path }}
+                                                    </label>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        <button type="button" class="btn btn-default" onclick="doDeploy('test')">部署</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="col-lg-12">
+                            <h4 class="page-header">预发布环境</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form role="form">
+                                        <input type="hidden" name="id" value="" />
+                                            <div class="form-group">
+                                                <label>部署目标主机和路径列表</label>
+                                                {% for value in pre_deployinfo %}
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="pre_deploy" type="checkbox" id="{{loop.index}}" value="{{value.id}}">{{ value.server_ip }} &nbsp;&nbsp; {{ value.path }}
+                                                    </label>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        <button type="button" class="btn btn-default" onclick="doDeploy('pre')">部署</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="col-lg-12">
+                            <h4 class="page-header">线上环境</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form role="form">
+                                        <input type="hidden" name="id" value="" />
+                                            <div class="form-group">
+                                                <label>部署目标主机和路径列表</label>
+                                                {% for value in online_deployinfo %}
+                                                <div class="checkbox">
+                                                    <label>
+                                                        <input name="online_deploy" type="checkbox" id="{{loop.index}}" value="{{value.id}}">{{ value.server_ip }} &nbsp;&nbsp; {{ value.path }}
+                                                    </label>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        <button type="button" class="btn btn-default" onclick="doDeploy('online')">部署</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <table width="100%" class="table table-striped table-bordered " id="dataTables-example">
+		                                <thead>
+		                                    <tr>
+		                                        <th>Task ID</th>
+		                                        <th>环境</th>
+		                                        <th>服务器</th>
+		                                        <th>部署路径</th>
+		                                        <th>状态</th>
+		                                        <th>操作</th>
+		                                    </tr>
+		                                </thead>
+		                                <tbody>
+
+		                                </tbody>
+		                            </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/metisMenu.min.js"></script>
+    <script src="/static/js/sb-admin-2.js"></script>
+
+    <script>
+        function doDeploy(env) {
+            var projectServerIds = "";
+            $("input[name=" + env + "_deploy]:checked").each(function() {
+                id = $(this).val();
+                if (projectServerIds != "") {
+                    projectServerIds = projectServerIds + ","
+                }
+                projectServerIds = projectServerIds + id;
+            });
+
+            $.ajax({
+                url : '/zeus/project/deploy/action',
+                type : 'POST',
+                data : {
+                    env : env,
+                    buildId : {{build.id}},
+                    projectServerIds : projectServerIds
+                },
+                dataType:'json',
+                success : function(data) {
+                    var jobId = data.jobId;
+                    getTasks();
+                },
+                error : function(err) {
+                    alert('Error');
+                }
+            });
+        }
+
+        function getTasks() {
+            $.ajax({
+                url : '/zeus/project/deploy/jobstatus',
+                type : 'GET',
+                data : {
+                    buildId : {{build.id}}
+                },
+                dataType:'json',
+                success : function(data) {
+                    $("tbody").empty()
+                    for (var i = 0; i < data.length; i++) {
+                        var task = data[i];
+                        var trHtml = "<tr>"
+                        trHtml += "<td>" + task.id + "</td>"
+                        trHtml += "<td>" + task.env + "</td>"
+                        trHtml += "<td>" + task.server_ip + "</td>"
+                        trHtml += "<td>" + task.path + "</td>"
+                        trHtml += "<td>" + (task.deploy_done == 1 ? "完成" : "未完成")  + "</td>"
+                        trHtml += "<td>" + "<a href='/zeus/project/deploy/log?taskId=" + task.id + "' target='_blank'>查看日志</a>" + "</td>"
+                        trHtml += "</tr>"
+
+                        var row = $(trHtml);
+                        row.appendTo($("tbody"));
+                    }
+                },
+                error : function(err) {
+                    alert('Error');
+                }
+            });
+        }
+
+        $(function() {
+            getTasks();
+        });
+    </script>
+</body>
+
+</html>

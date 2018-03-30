@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>新建构建</title>
+    <link rel="icon" type="image/png" href="/static/images/favicon.ico">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'include/header.html' %}
+            {% include 'include/menu.html' %}
+        </nav>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Build Project</h1>
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form role="form">
+                                        <input type="hidden" name="projectId" value="{{project.id}}" />
+                                        <div class="form-group">
+                                            <label>项目名称</label>
+                                            <input class="form-control" readonly="realonly" value="{{project.name}}" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>分支</label>
+                                            <input class="form-control" name="branch" value="master">
+                                        </div>
+                                        <button type="button" class="btn btn-default" onclick="doBuild()"> Build </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>日志：</label>
+                                        <textarea class="form-control" rows="20" id="logTextArea"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-default" disabled="disabled" id="btn_deploy">发布</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/metisMenu.min.js"></script>
+    <script src="/static/js/sb-admin-2.js"></script>
+
+    <script>
+        function doBuild() {
+            var projectId = $('input[name=projectId]').val();
+            var branch = $('input[name=branch]').val();
+            $.ajax({
+                url : '/zeus/project/build/create',
+                type : 'POST',
+                data : {
+                    projectId : projectId,
+                    branch : branch
+                },
+                dataType:'json',
+                success : function(data) {
+                    $("#btn_deploy").unbind("click");
+                    $("#btn_deploy").bind("click", function() {
+                        window.location.href = "/zeus/project/deploy/deploy?buildId=" + data.buildId;
+                    });
+                    pollLog(data.buildId);
+                },
+                error : function(err) {
+                    alert('Error');
+                }
+            })
+        }
+
+        function pollLog(buildId) {
+            $.ajax({
+                url : '/zeus/project/build/log',
+                type : 'GET',
+                data : {
+                    id : buildId,
+                },
+                dataType:'json',
+                success : function(data) {
+                    var ele = $('#logTextArea');
+                    ele.val(data.log);
+                    if (ele.length) {
+                        ele.scrollTop(ele[0].scrollHeight - ele.height());
+                    }
+
+                    if (data.done == 1) {
+                        $("#btn_deploy").prop('disabled', false);
+                    } else {
+                        setTimeout(function() {
+                            pollLog(buildId)
+                        }, 500)
+                    }
+                },
+                error : function(err) {
+                    alert('Error');
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

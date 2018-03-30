@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title> 项目列表 </title>
+    <link href="/static/images/favicon.ico" rel="icon" type="image/png">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/dataTables.responsive.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/custom.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'include/header.html' %}
+            {% include 'include/menu.html' %}
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header"> 项目列表
+                        <a href='/cmdb/project/add'>
+                            <button type="button" class="btn btn-primary"> 新增项目 </button>
+                        </a>
+                        <font color="red">{{ alert }}</font>
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="loading"></div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading"></div>
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" data-field="project list" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>项目名称</th>
+                                        <th>项目分组</th>
+                                        <th>端口</th>
+                                        <th>端口2</th>
+                                        <th>代码git地址</th>
+                                        <th>创建时间</th>
+                                        <th>备注</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for value in projects %}
+                                    <tr>
+                                        <td>{{ value.name }}</td>
+                                        <td>{{ value.group }}</td>
+                                        <td>{{ value.port }}</td>
+                                        <td>{{ value.port2 }}</td>
+                                        <td>{{ value.git_source }}</td>
+                                        <td>{{ value.create_time }}</td>
+                                        <td>{{ value.remark }}</td>
+                                        <td>
+                                            <a href='/cmdb/project/edit?projectId={{value.id}}'>
+                                                <button type="button" class="btn btn-danger btn-xs">编辑</button>
+                                            </a>
+                                            <a href='/cmdb/project/del?projectId={{value.id}}' onclick='return confirm("确认删除？")'>
+                                                <button type="button" class="btn btn-danger btn-xs">删除</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/metisMenu.min.js"></script>
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.bootstrap.min.js"></script>
+    <script src="/static/js/dataTables.responsive.js"></script>
+    <script src="/static/js/sb-admin-2.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            "iDisplayLength": 50,
+            responsive: true
+        });
+        $('.loading').hide()
+    });
+    </script>
+</body>
+</html>

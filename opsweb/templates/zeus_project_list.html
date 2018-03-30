@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>项目列表</title>
+    <link rel="icon" type="image/png" href="/static/images/favicon.ico">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'include/header.html' %}
+            {% include 'include/menu.html' %}
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">项目列表
+                        <a href='/zeus/project/create'>
+                            <button type="button" class="btn btn-primary">新建项目</button>
+                        </a>
+                    </h1>
+                </div>
+            </div>
+
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered " id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>项目名称</th>
+                                        <th>描述</th>
+                                        <th>代码库</th>
+                                        <th>父项目</th>
+                                        <th>创建时间</th>
+                                        <th>构建类型</th>
+                                        <th>启动类型</th>
+                                        <th>操作</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {%
+                                    for project in projects
+                                %}
+                                    <tr class="odd gradeX">
+                                        <td>{{loop.index}}</td>
+                                        <td>{{project.name}}</td>
+                                        <td>{{project.cname}}</td>
+                                        <td>{{project.source}}</td>
+                                        <td>{{project.parent_project}}</td>
+                                        <td>{{project.create_time}}</td>
+                                        <td>{{project.build_type}}</td>
+                                        <td>{{project.startup_type}}</td>
+                                        <td>
+                                            <a href='/zeus/project/server/list?projectId={{project.id}}'><button type="button" class="btn btn-primary btn-xs">服务器</button></a> &nbsp;
+                                            <a href='/zeus/project/config/list?projectId={{project.id}}'><button type="button" class="btn btn-primary btn-xs">配置</button></a> &nbsp;
+                                            <a href='/zeus/project/build/list?projectId={{project.id}}'><button type="button" class="btn btn-success btn-xs">发布</button></a>
+                                        </td>
+                                        <td>
+                                            <a href='/zeus/project/edit?projectId={{project.id}}'><button type="button" class="btn btn-danger btn-xs">编辑</button></a> &nbsp;
+                                            <a href='/zeus/project/delete?projectId={{project.id}}' onclick='return confirm("确认删除？")'><button type="button" class="btn btn-danger btn-xs">删除</button></a>
+                                        </td>
+                                    </tr>
+                                {%
+                                    endfor
+                                %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(category_filter=["alert"]) %}
+        {% if messages %}
+            <script>
+                var messages = {{ messages | safe }};
+                 for (var i=0; i<messages.length; i++) {
+                    alert(messages[i]);
+                 }
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/metisMenu.min.js"></script>
+    <script src="/static/js/sb-admin-2.js"></script>
+
+</body>
+
+</html>

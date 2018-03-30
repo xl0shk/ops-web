@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>构建view</title>
+    <link rel="icon" type="image/png" href="/static/images/favicon.ico">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'include/header.html' %}
+            {% include 'include/menu.html' %}
+        </nav>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Build Project</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form role="form">
+                                        <input type="hidden" name="projectId" value="{{build.project.id}}" />
+                                        <div class="form-group">
+                                            <label>项目名称</label>
+                                            <input class="form-control" readonly="readonly" value="{{build.project.name}}" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label>分支</label>
+                                            <input class="form-control" name="branch" value="{{build.branch}}" readonly="readonly">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label>日志：</label>
+                                        <textarea class="form-control" rows="20" id="logTextArea">{{build.build_log}}</textarea>
+                                    </div>
+                                    <a href="/zeus/project/deploy/deploy?buildId={{build.id}}">
+                                        <button type="submit" class="btn btn-default" id="btn_deploy">发布</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(category_filter=["alert"]) %}
+        {% if messages %}
+            <script>
+                var messages = {{ messages | safe }};
+                 for (var i=0; i<messages.length; i++) {
+                    alert(messages[i]);
+                 }
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/metisMenu.min.js"></script>
+    <script src="/static/js/sb-admin-2.js"></script>
+</body>
+</html>

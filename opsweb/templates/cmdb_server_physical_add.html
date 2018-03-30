@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title> 物理服务器 </title>
+    <link href="/static/images/favicon.ico" rel="icon" type="image/png">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/dataTables.responsive.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/custom.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'include/header.html' %}
+            {% include 'include/menu.html' %}
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header"> 新增物理服务器 </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-10">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <form role="form" method="POST">
+                                        <input type="hidden" name="serverId" value="" />
+                                        <div class="form-group">
+                                            <label> 主机名 (hostname，比如BJTJ-8-101) </label> <input class="form-control" name="hostname" value="" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 购买时间 (datetime, 1970/01/01 00:01) </label> <input class="form-control" type="datetime-local" name="buy_time" value="" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 公司 (服务器生产厂商，比如DELL、HP) </label> <input class="form-control" name="company" value="" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 服务号码 (厂商提供的服务号码) </label> <input class="form-control" name="service_no" value="" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label> CPU (CPU的总核数，比如32、24、16、8) </label>
+                                            <select class="form-control" name="cpu">
+                                                <option value=""></option>
+		                                        <option value="32">32</option>
+		                                        <option value="24">24</option>
+                                                <option value="16">16</option>
+                                                <option value="8">8</option>
+                                                <option value="4">4</option>
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> CPU物理核数 </label>
+                                            <select class="form-control" name="cpu_physical_num">
+		                                        <option value=""></option>
+		                                        <option value="1">1</option>
+		                                        <option value="2">2</option>
+                                                <option value="4">4</option>
+                                                <option value="8">8</option>
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> CPU详情 </label>
+                                            <select class="form-control" name="cpu_details">
+                                                <option value=""></option>
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 内存 (总内存大小) </label>
+                                            <select class="form-control" name="memory">
+                                                <option value=""></option>
+		                                        <option value="192">192</option>
+		                                        <option value="128">128</option>
+                                                <option value="96">96</option>
+                                                <option value="80">80</option>
+                                                <option value="64">64</option>
+                                                <option value="32">32</option>
+                                                <option value="16">16</option>
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 内存块数 </label>
+                                            <select class="form-control" name="memory_physical_num">
+                                                <option value=""></option>
+		                                        <option value="2">2</option>
+		                                        <option value="4">4</option>
+                                                <option value="6">6</option>
+                                                <option value="8">8</option>
+                                                <option value="10">10</option>
+                                                <option value="12">12</option>
+                                                <option value="14">14</option>
+                                                <option value="16">16</option>
+                                                <option value="18">18</option>
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 内存详情 </label>
+                                            <select class="form-control" name="memory_details">
+                                                <option value=""></option>
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 硬盘 (硬盘总大小，单位为G，填写具体数值，比如 1800、2400) </label> <input class="form-control" name="disk" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 硬盘块数 </label>
+                                            <select class="form-control" name="disk_physical_num">
+                                                <option value=""></option>
+		                                        <option value="1">1</option>
+		                                        <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 硬盘详情 </label>
+                                            <select class="form-control" name="disk_details">
+                                                <option value=""></option>
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> RAID等级 </label>
+                                            <select class="form-control" name="raid_level">
+                                                <option value=""></option>
+		                                        <option value="0">0</option>
+		                                        <option value="1">1</option>
+                                                <option value="5">5</option>
+                                                <option value="10">10</option>
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> RAID卡详情 </label>
+                                            <select class="form-control" name="raid_details">
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 电源数量 </label>
+                                            <select class="form-control" name="power_physical_num">
+                                                <option value=""></option>
+		                                        <option value="1">1</option>
+                                                <option value="2">2</option>
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 电源详情 </label>
+                                            <select class="form-control" name="power_details">
+                                                <option value=""></option>
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 网卡数量 </label> <input class="form-control" name="nic_physical_num" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 网卡详情 </label>
+                                            <select class="form-control" name="nic_details">
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 远程管理卡 </label>
+                                            <select class="form-control" name="idrac">
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> WAN-IP (外网IP地址) </label> <input class="form-control" name="wanip" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label> WAN-IP-alternate (备用外网IP地址) </label> <input class="form-control" name="wanip_alternate" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 带宽类型</label> <input class="form-control" name="broadband_type" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label> LAN-IP </label> <input class="form-control" name="lanip" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 管理网地址 </label> <input class="form-control" name="manageip" value="">
+                                        </div>
+                                        <div class="form-group">
+		                                    <label> 操作系统 </label>
+		                                    <select class="form-control" name="os">
+                                                <option value=""></option>
+		                                        <option value="CentOS">CentOS</option>
+		                                        <option value="Ubuntu">Ubuntu</option>
+                                                <option value="Windows">Windows</option>
+		                                    </select>
+		                                </div>
+                                        <div class="form-group">
+                                            <label> 操作系统版本 </label>
+                                            <select class="form-control" name="os_version">
+                                                <option value=""></option>
+		                                        <option value="6.5">6.5</option>
+		                                        <option value="6.6">6.6</option>
+                                                <option value="7.0">7.0</option>
+                                                <option value="7.1">7.1</option>
+                                                <option value="7.2">7.2</option>
+                                                <option value="7.3">7.3</option>
+                                                <option value="14.04">14.04</option>
+                                                <option value="16.04">16.04</option>
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 位置 (服务器所在机房位置) </label> <input class="form-control" name="location" value="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 分组 </label>
+                                            <select class="form-control" name="group">
+                                                <option value=""></option>
+		                                        <option value="分组1">分组1</option>
+		                                        <option value="分组2">分组2</option>
+		                                        <option value="分组3">分组3</option>
+		                                        <option value="分组4">分组4</option>
+		                                        <option value="分组5">分组5</option>
+		                                    </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label> 备注 </label> <input class="form-control" name="remark" value="">
+                                        </div>
+
+                                        <button type="submit" class="btn btn-default">新增</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/metisMenu.min.js"></script>
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.bootstrap.min.js"></script>
+    <script src="/static/js/dataTables.responsive.js"></script>
+    <script src="/static/js/sb-admin-2.js"></script>
+
+</body>
+</html>

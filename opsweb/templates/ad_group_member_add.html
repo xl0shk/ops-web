@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title> 添加AD组成员 </title>
+    <link href="/static/images/favicon.ico" rel="icon" type="image/png">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/dataTables.responsive.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/custom.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'include/header.html' %}
+            {% include 'include/menu.html' %}
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header">  添加{{ group_cn }}组成员 </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form role="form" method="POST">
+                                        <input type="hidden" name="groupCN" value="{{ group_cn }}" />
+                                        <div class="form-group">
+                                            <label>CN</label> <input class="form-control" name="member" value="">
+                                        </div>
+                                        <button type="submit" class="btn btn-default">添加</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/metisMenu.min.js"></script>
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.bootstrap.min.js"></script>
+    <script src="/static/js/dataTables.responsive.js"></script>
+    <script src="/static/js/sb-admin-2.js"></script>
+
+</body>
+</html>

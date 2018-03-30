@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title> 物理服务器 </title>
+    <link href="/static/images/favicon.ico" rel="icon" type="image/png">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/dataTables.responsive.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/custom.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'include/header.html' %}
+            {% include 'include/menu.html' %}
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header"> 物理服务器信息详情 </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <form role="form" method="POST" action="/cmdb/server/physical/edit">
+                                        <input type="hidden" name="origin_hostname" value="{{ server.hostname }}" />
+                                        <div class="form-group">
+                                            <label>主机名</label> <input class="form-control" name="hostname" value="{{ server.hostname }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>购买时间</label> <input class="form-control" name="buy_time" value="{{ server.buy_time }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>公司</label> <input class="form-control" name="company" value="{{ server.buy_time }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>服务号码</label> <input class="form-control" name="service_no" value="{{ server.service_no }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>CPU</label> <input class="form-control" name="cpu" value="{{ server.cpu }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>CPU物理核数</label> <input class="form-control" name="cpu_physical_num" value="{{ server.cpu_physical_num }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>CPU详情</label> <input class="form-control" name="cpu_details" value="{{ server.cpu_details }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>内存</label> <input class="form-control" name="memory" value="{{ server.memory }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>内存块数</label> <input class="form-control" name="memory_physical_num" value="{{ server.memory_physical_num }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>内存详情</label> <input class="form-control" name="memory_details" value="{{ server.memory_details }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>硬盘</label> <input class="form-control" name="disk" value="{{ server.disk }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>硬盘块数</label> <input class="form-control" name="disk_physical_num" value="{{ server.disk_physical_num }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>硬盘详情</label> <input class="form-control" name="disk_details" value="{{ server.disk_details }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>raid等级</label> <input class="form-control" name="raid_level" value="{{ server.raid_level }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>raid详情</label> <input class="form-control" name="raid_details" value="{{ server.raid_details }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>电源数量</label> <input class="form-control" name="power_physical_num" value="{{ server.power_physical_num }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>电源详情</label> <input class="form-control" name="power_details" value="{{ server.power_details }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>nic_physical_num</label> <input class="form-control" name="nic_physical_num" value="{{ server.nic_physical_num }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>nic_details</label> <input class="form-control" name="nic_details" value="{{ server.nic_details }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>idrac</label> <input class="form-control" name="idrac" value="{{ server.idrac }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>WAN-IP</label> <input class="form-control" name="wanip" value="{{ server.wanip }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>WAN-IP-alternate</label> <input class="form-control" name="wanip_alternate" value="{{ server.wanip_alternate }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>broadband_type</label> <input class="form-control" name="broadband_type" value="{{ server.broadband_type }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>LAN-IP</label> <input class="form-control" name="lanip" value="{{ server.lanip }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>manage-IP</label> <input class="form-control" name="manageip" value="{{ server.manageip }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+		                                    <label>操作系统</label> <input class="form-control" name="os" value="{{ server.os }}" readonly="readonly">
+		                                </div>
+                                        <div class="form-group">
+                                            <label>操作系统版本</label> <input class="form-control" name="os_version" value="{{ server.os_version }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>位置</label> <input class="form-control" name="location" value="{{ server.location }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>group</label> <input class="form-control" name="group" value="{{ server.group }}" readonly="readonly">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>备注</label> <input class="form-control" name="remark" value="{{ server.remark }}" readonly="readonly">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/metisMenu.min.js"></script>
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.bootstrap.min.js"></script>
+    <script src="/static/js/dataTables.responsive.js"></script>
+    <script src="/static/js/sb-admin-2.js"></script>
+</body>
+</html>

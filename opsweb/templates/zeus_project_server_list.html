@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>服务器列表</title>
+    <link rel="icon" type="image/png" href="/static/images/favicon.ico">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'include/header.html' %}
+            {% include 'include/menu.html' %}
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">项目-服务器 ({{project.name}})</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            测试环境
+                        </div>
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered " id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>服务器ip</th>
+                                        <th>项目path</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {%
+                                    for server in testServers
+                                %}
+                                    <tr class="odd gradeX">
+                                        <td>{{loop.index}}</td>
+                                        <td>{{server.server_ip}}</td>
+                                        <td>{{server.path}}</td>
+                                        <td>
+                                            <a href='/zeus/project/server/delete?id={{server.id}}&projectId={{project.id}}' onclick='return confirm("确认删除？")'><button type="button" class="btn btn-primary btn-xs">删除</button></a>
+                                        </td>
+                                    </tr>
+                                {%
+                                    endfor
+                                %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            预发布环境
+                        </div>
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered " id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>服务器ip</th>
+                                        <th>项目path</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {%
+                                    for server in preServers
+                                %}
+                                    <tr class="odd gradeX">
+                                        <td>{{loop.index}}</td>
+                                        <td>{{server.server_ip}}</td>
+                                        <td>{{server.path}}</td>
+                                        <td>
+                                            <a href='/zeus/project/server/delete?id={{server.id}}&projectId={{project.id}}' onclick='return confirm("确认删除？")'><button type="button" class="btn btn-primary btn-xs">删除</button></a>
+                                        </td>
+                                    </tr>
+                                {%
+                                    endfor
+                                %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            线上环境
+                        </div>
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered " id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>服务器ip</th>
+                                        <th>项目path</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {%
+                                    for server in onlineServers
+                                %}
+                                    <tr class="odd gradeX">
+                                        <td>{{loop.index}}</td>
+                                        <td>{{server.server_ip}}</td>
+                                        <td>{{server.path}}</td>
+                                        <td>
+                                            <a href='/zeus/project/server/delete?id={{server.id}}&projectId={{project.id}}' onclick='return confirm("确认删除？")'><button type="button" class="btn btn-danger btn-xs">删除</button></a>
+                                        </td>
+                                    </tr>
+                                {%
+                                    endfor
+                                %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            新增服务器
+                        </div>
+                        <div class="panel-body">
+                            <form role="form" method="POST" action="/zeus/project/server/add">
+                                <input type="hidden" name="projectId" value="{{project.id}}" />
+                                <div class="form-group">
+                                    <label>环境</label>
+                                    <select class="form-control" name="env">
+                                        <option value="test">测试环境 - test</option>
+                                        <option value="pre">预发布环境 - pre</option>
+                                        <option value="online">线上环境 - online</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>服务器ip</label>
+                                    <input class="form-control" name="ips">
+                                    <p class="help-block">使用英文半角逗号分隔多个ip</p>
+                                </div>
+                                <div class="form-group">
+                                    <label>部署路径</label>
+                                    <input class="form-control" name="path">
+                                    <p class="help-block">项目在服务器上部署的根目录，如: /data/system/sync-ns </p>
+                                </div>
+                                <button type="submit" class="btn btn-default">确定</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(category_filter=["alert"]) %}
+        {% if messages %}
+            <script>
+                var messages = {{ messages | safe }};
+                 for (var i=0; i<messages.length; i++) {
+                    alert(messages[i]);
+                 }
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/metisMenu.min.js"></script>
+    <script src="/static/js/sb-admin-2.js"></script>
+
+</body>
+
+</html>

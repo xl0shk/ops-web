@@ -1,0 +1,10 @@
+share
+*.log
+.settings
+.project
+.pydevproject
+.DS_Store
+.idea
+*.pyc
+*__pycache__*
+venv

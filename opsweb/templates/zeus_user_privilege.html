@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>管理员设置</title>
+    <link rel="icon" type="image/png" href="/static/images/favicon.ico">
+    <link href="/static/images/favicon.ico" rel="icon" type="image/png">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/dataTables.responsive.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/custom.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'include/header.html' %}
+            {% include 'include/menu.html' %}
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">用户项目权限列表 </h1>
+                </div>
+            </div>
+
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                             <table width="100%" class="table table-striped table-bordered table-hover" data-field="server list" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>用户</th>
+                                        <th>项目</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {%
+                                    for project_user in project_users
+                                %}
+                                    <tr class="odd gradeX">
+                                        <td>{{loop.index}}</td>
+                                        <td>{{project_user.cmdb_user_name}}</td>
+                                        <td>{{project_user.project_name}}</td>
+                                        <td>
+                                            <a href='/cmdb/user/privilege/del?id={{project_user.id}}' onclick="return confirm('确认删除？')"><button type="button" class="btn btn-danger btn-xs">删除</button></a> &nbsp;
+                                        </td>
+                                    </tr>
+                                {%
+                                    endfor
+                                %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">新增用户项目权限</div>
+                        <div class="panel-body">
+                            <form role="form" method="POST" action="/cmdb/user/privilege/add">
+                                <div class="form-group">
+                                    <label>用户邮箱</label>
+                                    <!--<input class="form-control" name="email">-->
+                                    <select class="form-control" name="email">
+                                        {% for user in users %}
+                                            <option value="{{ user.email }}">{{ user.email }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <!--<p class="help-block"> 用户名为名字全拼的缩写 </p>-->
+                                </div>
+                                <div class="form-group">
+                                    <label>项目权限</label>
+                                    <!--<input class="form-control" name="projectName">-->
+                                    <select class="form-control" name="projectName">
+                                    {% for project in projects %}
+                                            <option value="{{ project.name }}">{{ project.name }}</option>
+                                    {% endfor %}
+                                    </select>
+                                    <p class="help-block"> 请输入项目名 </p>
+                                </div>
+                                <button type="submit" class="btn btn-default"> 新增 </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% with messages = get_flashed_messages(category_filter=["alert"]) %}
+        {% if messages %}
+            <script>
+                var messages = {{ messages | safe }};
+                 for (var i=0; i<messages.length; i++) {
+                    alert(messages[i]);
+                 }
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/metisMenu.min.js"></script>
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.bootstrap.min.js"></script>
+    <script src="/static/js/dataTables.responsive.js"></script>
+    <script src="/static/js/sb-admin-2.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            "iDisplayLength": 50,
+            responsive: true
+        });
+        $('.loading').hide()
+    });
+    </script>
+
+</body>
+</html>

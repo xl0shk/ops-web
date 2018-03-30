@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title> CMDB用户 </title>
+    <link href="/static/images/favicon.ico" rel="icon" type="image/png">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/dataTables.responsive.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/custom.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'include/header.html' %}
+            {% include 'include/menu.html' %}
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3 class="page-header"> CMDB用户列表
+                        <a href='/cmdb/user/add'>
+                            <button type="button" class="btn btn-primary">新增用户</button>
+                        </a>
+                        <font color="red">{{ alert }}</font>
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="loading"></div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading"></div>
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" data-field="user list" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>用户名</th>
+                                        <th>姓名</th>
+                                        <th>CName</th>
+                                        <th>Email</th>
+                                        <th>手机号</th>
+                                        <th>AD管理员</th>
+                                        <th>ZEUS管理员</th>
+                                        <th>CMDB管理员</th>
+                                        <th>备注</th>
+                                        <th> </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for value in cmdb_users %}
+                                    <tr>
+                                        <td>{{ value.name }}</td>
+                                        <td>{{ value.realname }}</td>
+                                        <td>{{ value.cname }}</td>
+                                        <td>{{ value.email }}</td>
+                                        <td>{{ value.phone }}</td>
+                                        <td>{{ value.ad_admin }}</td>
+                                        <td>{{ value.zeus_admin }}</td>
+                                        <td>{{ value.cmdb_admin }}</td>
+                                        <td>{{ value.remark }}</td>
+                                        <td>
+                                            <a href='/cmdb/user/edit?cmdbUserId={{value.id}}'>
+                                                <button type="button" class="btn btn-danger btn-xs">编辑</button>
+                                            </a>
+                                            <a href='/cmdb/user/del?cmdbUserId={{value.id}}' onclick='return confirm("确认删除？")'>
+                                                <button type="button" class="btn btn-danger btn-xs">删除</button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(category_filter=["alert"]) %}
+        {% if messages %}
+            <script>
+                var messages = {{ messages | safe }};
+                 for (var i=0; i<messages.length; i++) {
+                    alert(messages[i]);
+                 }
+            </script>
+        {% endif %}
+    {% endwith %}
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/metisMenu.min.js"></script>
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.bootstrap.min.js"></script>
+    <script src="/static/js/dataTables.responsive.js"></script>
+    <script src="/static/js/sb-admin-2.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            "iDisplayLength": 50,
+            responsive: true
+        });
+        $('.loading').hide()
+    });
+    </script>
+</body>
+</html>

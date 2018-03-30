@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+</head>
+<body>
+    <div align="center">
+    <div class="container" style="margin-top:50px;">
+        <div class="row">
+        <div>
+        <br><br><br>
+        <h1>xl0shk运维系统</h1>
+        <h6>请使用SSO统一帐号登录</h6>
+        <br><br><br>    
+            <div class="col-md-6 col-md-offset-3">
+                <form action="" method="POST">
+                    {% if error %}
+                        <p class=error><strong>Error:</strong> {{ error }}
+                    {% endif %}
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon3">username</span>
+                        <input type="text" class="form-control" id="user" name="username" id="user" aria-describedby="basic-addon3">
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon3">password</span>
+                        <input type="password" class="form-control" id="pass" name="password" aria-describedby="basic-addon3">
+                    </div>
+                    <br>
+                    <input type="Submit" value="Login" class="btn btn-default btn-sm">
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</body>
+</html>

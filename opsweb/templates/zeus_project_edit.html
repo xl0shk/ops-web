@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>项目编辑</title>
+    <link rel="icon" type="image/png" href="/static/images/favicon.ico">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/metisMenu.min.css" rel="stylesheet">
+    <link href="/static/css/sb-admin-2.css" rel="stylesheet">
+    <link href="/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            {% include 'include/header.html' %}
+            {% include 'include/menu.html' %}
+        </nav>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">编辑项目信息</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            编辑项目信息
+                        </div>
+                        <div class="panel-body">
+                            <form role="form" method="POST" action="/zeus/project/edit">
+                                <input type="hidden" name="id" value="{{project.id}}" />
+                                <div class="form-group">
+                                    <label>项目</label>
+                                    <input class="form-control" name="project" value="{{project.name}}" readonly="readonly">
+                                </div>
+                                <div class="form-group">
+                                    <label>描述</label>
+                                    <input class="form-control" name="cname" value="{{project.cname}}">
+                                </div>
+                                <div class="form-group">
+                                    <label>代码库</label>
+                                    <input class="form-control" name="source" value="{{project.source}}">
+                                </div>
+                                <div class="form-group">
+                                    <label>父项目</label>
+                                    <input class="form-control" name="parent_project" value="{{project.parent_project}}">
+                                </div>
+                                <div class="form-group">
+                                    <label>创建时间</label>
+                                    <input class="form-control" name="create_time" value="{{project.create_time}}" readonly="readonly">
+                                </div>
+                                <div class="form-group">
+                                    <label>构建类型</label>
+                                    <select class="form-control" name="build_type">
+                                        <option value="standard" {% if project.build_type == 'standard'%} selected {% endif %}>标准构建</option>
+                                        <option value="none" {% if project.build_type == 'none'%} selected {% endif %}>无构建</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>构建类型</label>
+                                    <select class="form-control" name="startup_type">
+                                        <option value="standard" {% if project.startup_type == 'standard'%} selected {% endif %}>标准启动</option>
+                                        <option value="none" {% if project.startup_type == 'none'%} selected {% endif %}>无启动</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-default">确定</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(category_filter=["alert"]) %}
+        {% if messages %}
+            <script>
+                var messages = {{ messages | safe }};
+                 for (var i=0; i<messages.length; i++) {
+                    alert(messages[i]);
+                 }
+            </script>
+        {% endif %}
+    {% endwith %}
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/metisMenu.min.js"></script>
+    <script src="/static/js/sb-admin-2.js"></script>
+
+</body>
+
+</html>

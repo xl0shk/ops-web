@@ -11,7 +11,7 @@ IPy==0.83
 itsdangerous==0.24
 Jinja2==2.10
 ldap3==2.4.1
-lxml==4.2.1
+lxml==4.6.3
 MarkupSafe==1.0
 py-dateutil==2.2
 pyasn1==0.4.2
